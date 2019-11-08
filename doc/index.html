@@ -1,0 +1,337 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+  <head>
+    <link rev="made" href="mailto:s.maetschke@uq.edu.au">
+    <title>mosaic</title>
+    <link type="text/css" rel="stylesheet" href="style.css">
+  </head>
+
+<body>
+
+
+
+<!-- ================================================================================ -->
+<center><img src="./pic/mosaic.gif"></center>
+<center>V 1.06</center>
+
+
+<!-- ================================================================================ -->
+<h1><a name="motivation">Motivation</a></h1>
+
+<p>
+Protein sequences are often composed of regions that have distinct evolutionary histories as a consequence of domain shuffling, recombination, or gene conversion. New approaches are required to discover, visualize and analyze these sequence regions and thus enable a better understanding of protein evolution.
+</p>
+
+<!-- ================================================================================ -->
+<h1><a name="introduction">Introduction</a></h1>
+
+<p>
+<b>mosaic</b> is a software application to visually analyze sequence relationships.
+The similarities between the sequences of a given set are displayed within a matrix (mosaic plot), which enables the visual identification of clusters of related sequences, outliers or other sequences with special properties. The software furthermore allows to drill down and to display dot plots of two sequences or conservation profiles over a selection of sequences. These dot plots illustrate where similarities between two sequences occur and the profile plots enable identification of commonly recurring subsequences.
+</p>
+
+<center><img src="./pic/mosaic_usage.gif"></center>
+
+<p>
+The approach used by <b>mosaic</b> to generate these diagrams is different from traditional, alignment-based approaches. Instead of computing a (multiple) sequence alignment, <b>mosaic</b> utilizes short sub-sequences (n-grams) to measure the similarity between sequences. The advantages are two-fold. Firstly, the algorithm is faster and secondly it can deal with sequences that are difficult to align, e.g. due to domain rearrangement. The visualization is simple and intuitive, and repetitive or rearranged sequence regions can be easily identified. For more detailed information see <a href="#references">References</a>.
+</p>
+
+
+
+<!-- ================================================================================ -->
+<h1>Table of contents</h1>
+
+<ul>
+  <li><a href="#motivation">Motivation</a></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#usage">Usage</a></li>
+  <li><a href="#example">Example</a></li>
+  <li><a href="#installation">Installation</a></li>
+  <li><a href="#problems">Known problems</a></li>
+  <li><a href="#history">Version history</a></li>
+  <li><a href="#contact">Contact</a></li>
+  <li><a href="#references">References</a></li>
+</ul>
+
+
+
+<!-- ================================================================================ -->
+<h1><a name="usage">Usage</a></h1>
+
+<p>
+<b>mosaic</b> is started from the command line by calling <tag style=font-family:arial;> mosaic.py</tag> with the appropriate parameters (see <a href="#installation">Installation</a> for the requirements). The box below shows the usage information and the available options of <b>mosaic</b>:
+</p>
+
+
+<pre>
+Usage: mosaic.py [options] filepath
+
+Options:
+  --version                           show program's version number
+
+  -h, --help                          show this help message
+
+  -f FORMAT, --format=FORMAT          input format: FASTA or PHYLIP
+                                      (default is FASTA)
+  -n N, --ngram_size=N                n-gram size
+                                      (default is 4)
+  -t TYPE, --type=TYPE                type of the Laplacian: L, Lnorm, Lsym
+                                      (default is L)
+  -r R, --radius=R                    radius of Gaussian kernel
+                                      (default is 0, meaning automatic)
+  -s FONTSIZE, --font_size=FONTSIZE   font size for labels of mosaic plot
+                                      (default is 9)
+  -k, --black_labels                  black labels of mosaic plot
+                                      (otherwise automatic coloring)
+  -c C, --cell_size=C                 cell/grid size of dot plot
+                                      (default is 15)
+  -b  --binary                        switches dot plots to black and white
+
+  -i, --no_fiedler                    suppress fiedler vector
+
+  -m, --no_mosaic                     suppress mosaic plot
+
+  -v, --verbose                       print status messages to stdout
+</pre>
+
+<p>
+For instance, the following command line call would create mosaic plots for all files ending with the extension ".ffa" in the folder "data". These files would be expected to contain sequence data in FASTA format. The sequence labels of the mosaic plot would be printed with a font size of 10 and the output of the corresponding Fielder vector would be suppressed.
+</p>
+<pre>
+  mosaic.py -s 10 -i data/*.ffa
+</pre>
+
+<br />
+
+<p>
+The <b>filepath</b> must be a path to an existing file or a folder that contains sequence data in FASTA or PHYLIP format (see option <b>-f</b> for format selection). The filepath can contain wildcards (e.g. "data/*.ffa") and <b>mosaic</b> will generate plots for all files that match the specified name pattern.
+</p>
+
+<p>
+The default file format is FASTA format. Other file formats (currently only PHYLIP) can be specified via the option <b>-f</b>.
+</p>
+
+<p>
+The default n-gram size is 4, which is suitable for amino acid sequences. For RNA and DNA sequences an n-gram size of 12 is usually a good choice. Generally, the more closely related the sequences are the larger should <i>n</i> be to discover differences between the sequences. The option <b>-n</b> allows to specify the n-gram size.
+</p>
+
+<p>
+The Laplacian matrix for which the spectral decomposition is computed can be specified by the option <b>-l</b>. Per default the standard Laplacian (L) is used. Alternatively the normalized Laplacian (Lnorm) or the symmetric Laplacian (Lsym) may be used.
+</p>
+
+<p>
+The spectral rearrangment is performed on an affinity matrix, which is derived from the distance matrix by applying a Gaussian kernel to emphazise the closer neighborhood of a sequence. The radius of the Gaussian kernel can be specified via the option <b>-r</b>. The default value is zero, meaning the radius is calculated automatically. Otherwise, 1.0 is a good start to experiment with different radi. 
+</p>
+
+<p>
+The size of the font for the labels of the mosaic plot can be set by the <b>-f</b> option. The default size is 9.
+</p>
+
+<p>
+Depending on the prefix of the sequence name (specified in FASTA), <b>mosaic</b> automatically assigns the same label color within the mosaic plot for sequences that share the same prefix. The prefix is thereby separated by an underscore (_) from an arbitrary suffix.
+For instance, all sequence labels in the mosaic plot below, for sequences with names starting with AR_ are colored in green, while sequence names starting with the prefix PR_ are displayed in blue. The maximum number of different colors is 7. The automatic coloring can be disabled by setting the <b>-k</b> option.
+</p>
+
+<p>
+Dot plots are usually displayed in a compressed form to allow better identification of regions with high sequence similarity. The compression factor <it>c</it> determines how many cells of the matrix of the original dot plot are summed over to create a cell within the compressed dot plot. The compression factor can be set via the <b>-c</b> option. The default value is 15.
+</p>
+
+<p>
+Specifying the <b>-i</b> option suppresses the display of the Fiedler vector and specifying the <b>-m</b> option suppresses the display of the mosaic plot.
+</p>
+
+<p>
+The output of status messages within the console window can be enabled via the <b>-v</b> option.
+</p>
+
+
+
+
+
+<!-- ================================================================================ -->
+<h1><a name="example">Example</a></h1>
+
+<p>This section provides a short example of an application of <b>mosaic</b>.</p>
+
+
+<!-- ================================================================================ -->
+<h2>Mosaic plot</h2>
+
+<p>
+Running the batch file <tag style=font-family:arial;>example.bat</tag> or typing <tag style=font-family:arial;>mosaic.py -i data\MR_GR.ffa</tag> on the command line will create the following mosaic plot:
+</p>
+
+<img src="./pic/mosaic_plot.gif">
+
+<p>
+The mosaic plot shows the rearranged affinity matrix of 36 steroid hormone receptor sequences. The color of every cell of the matrix visualizes the (n-gram) similarity between a pair of sequences. Dark colors mean high sequence similarity, while bright colors mean low similarity. Colors are ranging from white over yellow, orange and red to black.
+</p>
+<p>
+The sequence set is composed of four families (AR, GR, MR, PR), which are clearly visible as four clusters (squares) of related sequences with high mutual similarity. Note that clustering of sequences based on an affinity matrix is a NP-hard problem and an optimal solution can be found in reasonable time only for small sets of sequences. <b>mosaic</b> utilizes the spectral clustering approach, which usually leads to a good clustering but does not guarantee an optimal solution.
+</p>
+
+<p style=font-size:70%>(Abbreviations: “AR” androgen receptor, “GR” glucocorticoid receptor, “MR” mineralocorticoid receptor, “PR” progesterone receptor, “Bt” Bos taurus, “Dr” Danio rerio, “Ec” Equus caballus, “Gg” Gallus gallus, “Hs’ Homo sapiens, “Md” Monodelphis
+domestica, “Mm’ Mus musculus, “Pt” Pan troglodytes, “Xt” Xenopus tropicalis)
+</p>
+
+
+<!-- ================================================================================ -->
+<h2>Fiedler vector</h2>
+
+<p>
+The command line option -i in the previous example suppressed the output of the fiedler vector. Typing <tag style=font-family:arial;>mosaic.py  data\MR_GR.ffa</tag> on the command line will create the mosaic plot and the corresponding plot of the Fiedler vector:
+</p>
+
+<img src="./pic/fiedler_plot.gif">
+
+<p>
+Note that the steps within the Fiedler plot correspond to the clusters within the mosaic plot. The Fiedler vector allows the user to objectively assess the quality of the clustering and the relatedness of clusters. For instance, from the Fiedler plot it becomes obvious that the sequences of the GR family are much more closely related to the sequences of the MR family than to the members of the AR family.
+</p>
+
+<p>
+The Fiedler plot for steroid hormone receptor sequences shows four distinct steps for the four families indicating that the clustering is robust. You may also notice that the stepping pattern is disturbed for Zebrafish (DR) and Frog (Xt) sequences (indicies: 0,8,9,17,26,35), which are known to be only distantly related. These sequences show low similarity scores in the mosaic plot as well.
+</p>
+
+
+<!-- ================================================================================ -->
+<h2>Dot plot</h2>
+
+<p>
+The color of each cell within the mosaic plot represents the overall n-gram similarity between two sequences. Frequently, however, a more detailed analysis is required and the regions of high or low sequence similarity between two sequences need to be identified. The dot plot enables this type of analysis.
+</p>
+<p>
+Clicking (left mouse button) while holding the CTRL-key on a cell within the mosaic plot opens the corresponding n-gram dot plot that indicates the positions of matching n-grams between the two sequences. Two identical sequences would result in a plot with one main diagonal. The following dot plot compares the mineralocorticoid
+receptor (MR) sequences for zebrafish (Dr) and chicken (Gg). It shows a high density of matching n-grams in the second half of the sequences, specifically in the conserved regions of the zinc-finger domain and the ligand binding domain.
+</p>
+
+<img src="./pic/dot_plot.gif">
+
+<p>
+The overall n-gram similarity is 0.24 (s=0.24) for an n-gram size of 4 (n=4). The dot plot is compressed by a factor of 15 (c=15), meaning that the color of each dot is computed by summing the dots across 15 cells of the uncompressed dot plot matrix. Dots within the compressed dot plot therefore represent the density of matching n-grams within small regions and allow a better identification of regions with high similarity.
+</p>
+
+<!-- ================================================================================ -->
+<h2>Conservation profile</h2>
+
+<p>
+To investigate the sequence similarity of more than two sequences in more detail, <b>mosaic</b> provides an n-gram based sequence profile. Similar to traditional profiles derived from a multiple sequence alignment, the profiles in <b>mosaic</b> display an indicator value for the conservation of sequence regions within a set of sequences. For details see <a href="#references">References</a>.
+</p>
+
+<p>
+Dragging the mouse pointer over a section of the mosaic plot (by the left mouse button and the CTRL-key) brings up the n-gram conservation profile, calculated over all sequences within the selected area.
+</p
+
+<p>
+The following plot shows the n-gram conservation profile over all 36 steroid hormone receptor sequences. The highly conserved DNA-binding domain (DBD) and the more-variable ligand binding domain (LDB) common to these sequence can easily be identified. Considerably less conserved but still visible is the transaction function domain (AF-1).
+</p
+<img src="./pic/profile_plot2.gif">
+
+
+
+
+<!-- ================================================================================ -->
+<h1><a name="installation">Installation</a></h1>
+
+<p>The following software components are required to run <b>mosaic</b>:</p>
+
+<ul>
+  <li><b>mosaic</b> (<a href="bin/mosaic.zip">download</a>) </li>
+  <li>Python 2.5 (<a href="http://www.python.org/download/">download</a>) </li>
+  <li>matplotlib (<a href="http://sourceforge.net/projects/matplotlib/files/matplotlib/matplotlib-0.99.1/">download</a>) </li>
+</ul>
+
+<p>For background information see the following links:</p>
+<ul>
+  <li><a href="http://matplotlib.sourceforge.net/">matplotlib</a> </li>
+  <li><a href="http://numpy.scipy.org/">NumPy</a> </li>
+  <li><a href="http://www.scipy.org/">SciPy</a> </li>
+</ul>
+
+
+<p>
+The installation of Python and the correct versions of compatible Python libraries can be difficult and time consuming. The simplest solution is the installation of the <b>Enthought Python Distribution</b> (EPD) that contains Python and all required libraries in a single package. The EPD can be downloaded from <a href="http://www.enthought.com/products/epd.php">here</a>.
+</p>
+
+<p><b>mosaic</b> has been developed under Windows XP using Python 2.5. In principle, <b>mosaic</b> should run under all platforms that support Python 2.5 or higher and a compatible PyLab library but no tests for other platforms or versions of Python have been performed.
+</p>
+
+
+
+
+<!-- ================================================================================ -->
+<h1><a name="problems">Known problems</a></h1>
+
+<h3>Exception when closing window</h3>
+<p>Occasionally the software throws an exception when plots such as the mosaic plot or the dot plot are closed. This appears to be a problem of the underlying matplotlib library and is not caused by the mosaic software application itself.
+</p>
+
+<p>Zooming into an mosaic plot does not show sequence labels on the axes.
+</p>
+
+
+
+
+<!-- ================================================================================ -->
+<h1><a name="history">History</a></h1>
+
+<br>
+<table border="1" width = "70%" >
+<tr><th>Version</th><th>Date</th><th>Comment</th></tr>
+<tr><td>1.06</td><td>08.04.10</td>
+    <td>Paper references updated</td>
+</tr>
+<tr><td>1.05</td><td>15.01.10</td>
+    <td>Refactoring of code and additional commenting.<br />Problem with new line characters
+	    when loading FASTA files created under Unix/Mac fixed.
+	</td>
+</tr>
+<tr><td>1.04</td><td>05.01.10</td>
+    <td>Option -r added to set radius of Gaussian kernel for affinity matrix calculation</td>
+</tr>
+<tr><td>1.03</td><td>09.11.09</td>
+    <td>Option -b added to display dot plots in black and white</td>
+</tr>
+<tr><td>1.02</td><td>26.10.09</td>
+    <td>Psycho support added. Only used when installed.</td>
+</tr>
+<tr><td>1.01</td><td>15.10.09</td>
+    <td>Option -f added</td>
+</tr>
+<tr><td>1.00</td><td>08.10.09</td>
+    <td>First public version of mosaic</td>
+</tr>
+</table>
+
+
+
+<!-- ================================================================================ -->
+<h1><a name="contact">Contacts</a></h1>
+
+<table border="1" width = "70%" >
+  <tr><th>Name</th><th>Email</th></tr>
+  <tr><td>Stefan Maetschke</td><td>s.maetschke@uq.edu.au</td></tr>
+  <tr><td>Karin Kassahn</td><td>k.kassahn@uq.edu.au</td></tr>
+  <tr><td>Mark Ragan</td><td>m.ragan@uq.edu.au</td></tr>
+</table>
+
+
+<!-- ================================================================================ -->
+<h1><a name="references">References</a></h1>
+
+
+<p>
+<i>Stefan R. Maetschke, Karin S. Kassahn, Jasmyn A. Dunn,
+Siew P. Han, Eva Z. Curley, Katryn J. Stacey, Mark A. Ragan</i> <br/>
+<a href="papers/Mosaic.pdf">A visual framework for sequence analysis using n-grams
+and spectral rearrangement</a> <br/>
+submitted, Bioinformatics, 2010 <br/>
+<br/>
+<a href="papers/Supplementary.pdf">mosaic: Supplementary material</a>  <br/>
+</p>
+
+
+</body>
+</html>
+

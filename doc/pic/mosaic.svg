@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   sodipodi:docbase="C:\Maet\Projects\Python\Mosaic\doc\pic"
+   sodipodi:docname="mosaic.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs4">
+    <filter
+       inkscape:collect="always"
+       id="filter3207">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.27373964"
+         id="feGaussianBlur3209" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       id="filter3351">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.27373964"
+         id="feGaussianBlur3353" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       x="-0.04092438"
+       width="1.0818488"
+       y="-0.17447882"
+       height="1.3489576"
+       id="filter3356">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.62575535"
+         id="feGaussianBlur3358" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       id="filter3488">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.25030214"
+         id="feGaussianBlur3490" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.80765193"
+     inkscape:cx="379.49668"
+     inkscape:cy="612.99956"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="887"
+     inkscape:window-height="781"
+     inkscape:window-x="105"
+     inkscape:window-y="51" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2160"
+       transform="matrix(12.131841,0,0,12.131841,-1762.7848,-3737.3834)"
+       style="fill:#a9a9a9;filter:url(#filter3207);font-family:Verdana"><flowRegion
+         id="flowRegion2162"><rect
+           id="rect2164"
+           width="432.50159"
+           height="173.35085"
+           x="154.08963"
+           y="320.4364"
+           style="fill:#a9a9a9;font-family:Verdana" /></flowRegion><flowPara
+         id="flowPara2166">mosaic</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2168"
+       transform="matrix(12.131841,0,0,12.131841,-1768.3345,-3746.2314)"
+       style="font-family:Verdana"><flowRegion
+         id="flowRegion2170"><rect
+           id="rect2172"
+           width="432.50159"
+           height="173.35085"
+           x="154.08963"
+           y="320.4364"
+           style="font-family:Verdana" /></flowRegion><flowPara
+         id="flowPara2174">mosaic</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2176"
+       transform="matrix(12.131841,0,0,12.131841,-1770.0854,-3749.7334)"
+       style="opacity:0.839779;fill:#ffffff;filter:url(#filter3351);font-family:Verdana"><flowRegion
+         id="flowRegion2178"><rect
+           id="rect2180"
+           width="432.50159"
+           height="173.35085"
+           x="154.08963"
+           y="320.4364"
+           style="fill:#ffffff;font-family:Verdana" /></flowRegion><flowPara
+         id="flowPara2182">mosaic</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2173"
+       transform="matrix(12.191848,0,0,12.191848,-1075.3058,-6219.0493)"
+       style="fill:#808080;filter:url(#filter3488)"><flowRegion
+         id="flowRegion2175"><rect
+           id="rect2177"
+           width="102.76704"
+           height="38.382877"
+           x="100.29073"
+           y="549.67041"
+           style="fill:#808080" /></flowRegion><flowPara
+         id="flowPara2179"
+         style="fill:#808080;font-family:Bauhaus 93">mosaic</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2181"
+       transform="matrix(12.191848,0,0,12.191848,-1079.7831,-6223.4245)"
+       style="fill:#000000;opacity:0.39226519"><flowRegion
+         id="flowRegion2183"><rect
+           id="rect2185"
+           width="102.76704"
+           height="38.382877"
+           x="100.29073"
+           y="549.67041"
+           style="fill:#000000" /></flowRegion><flowPara
+         id="flowPara2187"
+         style="font-family:Bauhaus 93;fill:#000000">mosaic</flowPara></flowRoot>  </g>
+</svg>
